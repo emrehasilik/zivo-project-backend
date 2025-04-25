@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Derleme çıktısı */
+    "outDir": "./dist",                 // .ts dosyaları derlenip buraya yazılır
+    "rootDir": "./src",                 // kaynak kod dizini
+
+    /* Dil ve modül ayarları */
+    "target": "ES6",                    // Promise, async/await vs. destekler
+    "module": "commonjs",               // Node.js (ts‑node/nodemon) ile uyumlu
+    "moduleResolution": "node",         // (önerilir) import yolunu Node gibi çözer
+
+    /* Sıkı tip kontrolü */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,               // bağımlılık tiplerini atla, derleme hızlanır
+
+    /* ES modül uyumluluğu */
+    "esModuleInterop": true             // `import jwt from 'jsonwebtoken'` yazabilmenizi sağlar
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
