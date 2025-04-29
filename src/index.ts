@@ -2,11 +2,15 @@ import express, { Request, Response } from 'express';
 import { supabase } from './config/db';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRouter from './routers/auth_router'; // Auth router'ı ekliyoruz
-import businessRouter from './routers/business_router'; // Business router'ı ekliyoruz
-import appointmentRouter from './routers/appointment.router'; 
-import staffRouter from './routers/staff_router'; // Staff router'ı ekliyoruz
-import serviceRouter from './routers/service_router'; // Service router'ı ekliyoruz
+import authRouter from './routers/auth_router';
+import businessRouter from './routers/business_router';
+import appointmentRouter from './routers/appointment.router';
+import staffRouter from './routers/staff_router';
+import serviceRouter from './routers/service_router';
+import categoryRouter from './routers/category_router';
+
+// 🌟 yeni eklemen gereken import:
+import categoryBusinessRouter from './routers/business_category_router'; 
 
 dotenv.config();
 
@@ -21,7 +25,11 @@ app.use('/api/auth', authRouter);
 app.use('/api/businesses', businessRouter);
 app.use('/api/appointments', appointmentRouter);
 app.use('/api/staff', staffRouter);
+app.use('/api/categories', categoryRouter);
 app.use('/api/services', serviceRouter);
+
+// 🌟 yeni routerı burada ekle:
+app.use('/api', categoryBusinessRouter);
 
 // Veritabanı bağlantısını kontrol et
 const checkDatabaseConnection = async () => {
@@ -43,13 +51,12 @@ app.get('/', async (req: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase.from('users').select('*');
 
   if (error) {
-    res.status(500).json({ error: error.message }); // ❌ Response döndürmüyoruz
-    return;                                         // sadece akışı sonlandırıyoruz
+    res.status(500).json({ error: error.message });
+    return;
   }
 
   res.json({ users: data });
 });
-
 
 // Server başlatma işlemi
 const startServer = async () => {
