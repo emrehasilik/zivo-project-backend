@@ -17,10 +17,16 @@ export const createAppointment = async (appointment: Appointment) => {
 };
 
 // ---------- KULLANICI BAZLI LİSTE ----------
+// services/appointment_service.ts
 export const getAppointmentsByUser = async (user_id: number) => {
   const { data, error } = await supabase
     .from('appointments')
-    .select('*')
+    .select(`
+      id, appointment_date, start_time, end_time, status,
+      business:business_id ( id, name, address, phone ),
+      service:service_id   ( id, name, price, duration ),
+      staff:staff_id       ( id, first_name, last_name )
+    `)
     .eq('user_id', user_id)
     .order('appointment_date', { ascending: true })
     .order('start_time',       { ascending: true });
@@ -29,11 +35,17 @@ export const getAppointmentsByUser = async (user_id: number) => {
   return data;
 };
 
+
 // ---------- İŞLETME BAZLI LİSTE ----------
 export const getAppointmentsByBusiness = async (business_id: number) => {
   const { data, error } = await supabase
     .from('appointments')
-    .select('*')
+    .select(`
+      id, user:user_id ( id, first_name, last_name ),
+      service:service_id ( id, name, price ),
+      staff:staff_id ( id, first_name, last_name ),
+      appointment_date, start_time, end_time, status
+    `)
     .eq('business_id', business_id)
     .order('appointment_date', { ascending: true })
     .order('start_time',       { ascending: true });
@@ -41,6 +53,7 @@ export const getAppointmentsByBusiness = async (business_id: number) => {
   if (error) throw error;
   return data;
 };
+
 
 // ---------- SADECE TARİHLER ----------
 export const getAppointmentDatesByBusiness = async (business_id: number) => {

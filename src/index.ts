@@ -8,6 +8,9 @@ import appointmentRouter from './routers/appointment.router';
 import staffRouter from './routers/staff_router';
 import serviceRouter from './routers/service_router';
 import categoryRouter from './routers/category_router';
+import campaignRouter from "./routers/campaign_router";
+import userRouter from './routers/user_router';
+
 
 // 🌟 yeni eklemen gereken import:
 import categoryBusinessRouter from './routers/business_category_router'; 
@@ -27,6 +30,8 @@ app.use('/api/appointments', appointmentRouter);
 app.use('/api/staff', staffRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/services', serviceRouter);
+app.use("/api/campaigns", campaignRouter);
+app.use('/api/users', userRouter);
 
 // 🌟 yeni routerı burada ekle:
 app.use('/api', categoryBusinessRouter);
